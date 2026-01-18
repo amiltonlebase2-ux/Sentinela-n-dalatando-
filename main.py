@@ -1,54 +1,68 @@
+
 import streamlit as st
 
-# Configuração da Página
-st.set_page_config(page_title="Sentinela Cuanza Norte", page_icon="🛡️")
+# Configuração para parecer um aplicativo de telemóvel
+st.set_page_config(page_title="Sentinela Cuanza Norte", page_icon="🛡️", layout="centered")
 
-# Cabeçalho Profissional
-st.title("🛡️ Sentinela de Cuanza Norte")
-st.subheader("Auditor Digital de Taxas e Licenças")
-st.markdown("---")
+# Visual profissional (Azul e Branco)
+st.markdown("""
+    <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    .stButton>button {width: 100%; border-radius: 12px; height: 3.5em; background-color: #004a99; color: white; font-weight: bold; border: none;}
+    .stTabs [data-baseweb="tab-list"] {gap: 10px;}
+    .stTabs [data-baseweb="tab"] {height: 50px; white-space: pre-wrap; background-color: #f0f2f6; border-radius: 10px; padding: 10px;}
+    </style>
+    """, unsafe_allow_html=True)
 
-st.info("""
-**Objetivo:** Verificar a legalidade de cobranças e taxas comerciais em N'dalatando. 
-Proteja o seu negócio com base na Lei Geral de Taxas.
-""")
+st.title("🛡️ Sentinela Cuanza")
+st.subheader("Consultoria Hamilton Neto")
+st.caption("Apoio ao Comerciante de N'dalatando")
 
-# Base de Dados de Taxas (Exemplos para Angola)
-banco_de_dados = {
-    "Alvará Comercial (Pequeno Porte)": 15000,
-    "Licença Sanitária": 12000,
-    "Taxa de Higiene e Limpeza": 5000,
-    "Venda Ambulante (Mensal)": 2500,
-    "Taxa de Publicidade (Painel/Placa)": 8000,
-    "Ocupação de Solo (m²)": 3000
-}
+# Abas organizadas
+tab1, tab2 = st.tabs(["📊 Calculador de Taxas", "📢 Falar com Hamilton"])
 
-# Interface do Usuário
-st.write("### ⚙️ Configuração da Auditoria")
-servico = st.selectbox("Selecione o serviço que deseja consultar:", list(banco_de_dados.keys()))
-
-valor_cobrado = st.number_input("Introduza o valor que lhe foi solicitado (Kz):", min_value=0, step=500)
-
-# Lógica de Verificação
-valor_legal = banco_de_dados[servico]
-
-st.markdown("---")
-
-if st.button("VERIFICAR AGORA"):
-    if valor_cobrado > valor_legal:
-        diferenca = valor_cobrado - valor_legal
-        st.error(f"⚠️ **VALOR ACIMA DA TABELA DETETADO!**")
-        st.write(f"O valor fixado por lei para **{servico}** é de **{valor_legal} Kz**.")
-        st.write(f"Estão a cobrar **{diferenca} Kz** a mais.")
-        st.warning("Recomendação: Solicite a Guia de Recolha de Receitas do Estado (GRIS) oficial.")
+with tab1:
+    st.write("### Verificar Valor da Taxa")
     
-    elif valor_cobrado == valor_legal:
-        st.success(f"✅ **VALOR DENTRO DA LEGALIDADE**")
-        st.write(f"O valor de {valor_legal} Kz está correto de acordo com a tabela oficial.")
+    # Tabela de preços de Cuanza Norte
+    taxas = {
+        "Alvará Comercial": 15000,
+        "Licença Sanitária": 12000,
+        "Taxa de Higiene": 5000,
+        "Venda Ambulante": 2500,
+        "Publicidade": 8000
+    }
     
-    else:
-        st.info("O valor introduzido é menor que a taxa padrão. Verifique se há isenção.")
+    opcao = st.selectbox("Selecione o documento:", list(taxas.keys()))
+    valor_pago = st.number_input("Quanto te cobraram? (Kz)", min_value=0, step=500)
+    
+    valor_real = taxas[opcao]
+    
+    if st.button("ANALISAR AGORA"):
+        if valor_pago > valor_real:
+            st.error(f"⚠️ ATENÇÃO: Estão a cobrar {valor_pago - valor_real} Kz a mais!")
+            st.info(f"O preço oficial para {opcao} é {valor_real} Kz.")
+        elif valor_pago == valor_real:
+            st.success("✅ VALOR CORRETO: Esta taxa está dentro da lei.")
+        else:
+            st.warning("O valor está abaixo do normal. Verifique se o documento é autêntico.")
 
-# Rodapé de Autoridade
+with tab2:
+    st.write("### 📞 Linha Direta")
+    st.write("Tens uma denúncia ou precisas de consultoria? Clica no botão abaixo para falar diretamente comigo.")
+    
+    # Mensagem personalizada para o teu WhatsApp
+    msg_wa = f"Olá Hamilton Neto, estou a usar o site Sentinela e gostaria de uma ajuda sobre a taxa de {opcao}."
+    link_wa = f"https://wa.me/244973806524?text={msg_wa.replace(' ', '%20')}"
+    
+    st.markdown(f"""
+        <a href="{link_wa}" target="_blank">
+            <button style="width:100%; height:60px; background-color:#25D366; color:white; border:none; border-radius:15px; font-weight:bold; font-size:18px; cursor:pointer;">
+                🟢 FALAR COM HAMILTON NETO
+            </button>
+        </a>
+    """, unsafe_allow_html=True)
+
 st.markdown("---")
-st.caption("Desenvolvido por Amilton Marketing - Soluções Tecnológicas para Transparência")
+st.markdown(f"<p style='text-align: center;'><b>© 2026 Hamilton Neto - N'dalatando</b></p>", unsafe_allow_html=True)
