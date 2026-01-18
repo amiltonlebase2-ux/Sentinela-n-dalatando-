@@ -1,51 +1,67 @@
 import streamlit as st
 
-# Deixa a página compacta e ajustada ao telemóvel
-st.set_page_config(page_title="Sentinela", page_icon="🛡️", layout="centered")
+# Configuração para parecer um aplicativo de telemóvel
+st.set_page_config(page_title="Sentinela Cuanza Norte", page_icon="🛡️", layout="centered")
 
-# CSS para esconder menus desnecessários e melhorar botões
+# Visual profissional (Azul e Branco)
 st.markdown("""
     <style>
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
-    .stButton>button {width: 100%; border-radius: 10px; height: 3em; background-color: #007bff; color: white;}
+    .stButton>button {width: 100%; border-radius: 12px; height: 3.5em; background-color: #004a99; color: white; font-weight: bold; border: none;}
+    .stTabs [data-baseweb="tab-list"] {gap: 10px;}
+    .stTabs [data-baseweb="tab"] {height: 50px; white-space: pre-wrap; background-color: #f0f2f6; border-radius: 10px; padding: 10px;}
     </style>
     """, unsafe_allow_html=True)
 
 st.title("🛡️ Sentinela Cuanza")
-st.caption("Versão 1.0 - Apoio ao Comércio Local")
+st.subheader("Consultoria Hamilton Neto")
+st.caption("Apoio ao Comerciante de N'dalatando")
 
-# Menu em abas (mais pequeno e organizado)
-aba1, aba2 = st.tabs(["📊 Auditor", "📞 Denúncia"])
+# Abas organizadas
+tab1, tab2 = st.tabs(["📊 Calculador de Taxas", "📢 Falar com Hamilton"])
 
-with aba1:
-    st.write("### Verificar Taxa")
-    servico = st.selectbox("Serviço:", [
-        "Alvará Comercial", "Licença Sanitária", 
-        "Taxa de Higiene", "Venda Ambulante", "Publicidade"
-    ])
+with tab1:
+    st.write("### Verificar Valor da Taxa")
     
-    valor_legal = {"Alvará Comercial": 15000, "Licença Sanitária": 12000, "Taxa de Higiene": 5000, "Venda Ambulante": 2500, "Publicidade": 8000}
+    # Tabela de preços de Cuanza Norte
+    taxas = {
+        "Alvará Comercial": 15000,
+        "Licença Sanitária": 12000,
+        "Taxa de Higiene": 5000,
+        "Venda Ambulante": 2500,
+        "Publicidade": 8000
+    }
     
-    cobrado = st.number_input("Valor solicitado (Kz):", min_value=0, step=500)
+    opcao = st.selectbox("Selecione o documento:", list(taxas.keys()))
+    valor_pago = st.number_input("Quanto te cobraram? (Kz)", min_value=0, step=500)
     
-    if st.button("CALCULAR AGORA"):
-        legal = valor_legal[servico]
-        if cobrado > legal:
-            st.error(f"Excesso de: {cobrado - legal} Kz")
-            st.warning(f"O valor fixado é {legal} Kz.")
-        elif cobrado == legal:
-            st.success("Valor Correto!")
+    valor_real = taxas[opcao]
+    
+    if st.button("ANALISAR AGORA"):
+        if valor_pago > valor_real:
+            st.error(f"⚠️ ATENÇÃO: Estão a cobrar {valor_pago - valor_real} Kz a mais!")
+            st.info(f"O preço oficial para {opcao} é {valor_real} Kz.")
+        elif valor_pago == valor_real:
+            st.success("✅ VALOR CORRETO: Esta taxa está dentro da lei.")
         else:
-            st.info("Valor abaixo do padrão.")
+            st.warning("O valor está abaixo do normal. Verifique se o documento é autêntico.")
 
-with aba2:
-    st.write("### Linha de Apoio")
-    st.info("Caso detete uma irregularidade, contacte as autoridades ou use o botão abaixo:")
+with tab2:
+    st.write("### 📞 Linha Direta")
+    st.write("Tens uma denúncia ou precisas de consultoria? Clica no botão abaixo para falar diretamente comigo.")
     
-    texto_denuncia = f"Olá, gostaria de reportar uma irregularidade na taxa de {servico} em N'dalatando."
-    # Link direto para o teu WhatsApp (muda o número abaixo pelo teu)
-    st.markdown(f"[📢 Enviar Alerta via WhatsApp](https://wa.me/244973806524?text={texto_denuncia})")
+    # Mensagem personalizada para o teu WhatsApp
+    msg_wa = f"Olá Hamilton Neto, estou a usar o site Sentinela e gostaria de uma ajuda sobre a taxa de {opcao}."
+    link_wa = f"https://wa.me/244973806524?text={msg_wa.replace(' ', '%20')}"
+    
+    st.markdown(f"""
+        <a href="{link_wa}" target="_blank">
+            <button style="width:100%; height:60px; background-color:#25D366; color:white; border:none; border-radius:15px; font-weight:bold; font-size:18px; cursor:pointer;">
+                🟢 FALAR COM HAMILTON NETO
+            </button>
+        </a>
+    """, unsafe_allow_html=True)
 
 st.markdown("---")
-st.caption("© 2026 Amilton Neto - N'dalatando")
+st.markdown(f"<p style='text-align: center;'><b>© 2026 Hamilton Neto - N'dalatando</b></p>", unsafe_allow_html=True)
