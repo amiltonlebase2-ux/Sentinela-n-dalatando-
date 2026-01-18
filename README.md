@@ -1,1 +1,1 @@
-sentinela n'dalatando por Amilton Neto 
+fiscal nacional -Angola por Amilton Neto 
