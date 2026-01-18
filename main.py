@@ -1,101 +1,155 @@
 
+    
 import streamlit as st
 
-# Configuração da Página para aparecer o nome "Sentinela" no navegador
-st.set_page_config(page_title="Sentinela Nacional - Hamilton Neto", page_icon="🛡️", layout="centered")
+# CONFIGURAÇÃO SENTINELA NACIONAL V3.15
+st.set_page_config(
+    page_title="Sentinela Nacional V3.15", 
+    page_icon="🛡️", 
+    layout="centered"
+)
 
-# Estilo para parecer um Aplicativo profissional
+# Estilo Visual V3.15 - Foco em Mobile e Acessibilidade
 st.markdown("""
     <style>
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    .stButton>button {width: 100%; border-radius: 15px; height: 3.5em; background-color: #d40000; color: white; font-weight: bold; border: none;}
-    .stSelectbox, .stNumberInput {margin-bottom: 20px;}
-    .stTabs [data-baseweb="tab-list"] {gap: 10px;}
-    .stTabs [data-baseweb="tab"] {height: 50px; background-color: #f0f2f6; border-radius: 10px; padding: 10px;}
+    .stApp { background-color: #ffffff; }
+    
+    /* Cabeçalho V3.15 */
+    .v3-header {
+        background: linear-gradient(135deg, #001f3f 0%, #004080 100%);
+        padding: 25px;
+        border-radius: 0px 0px 25px 25px;
+        color: white;
+        text-align: center;
+        margin: -60px -20px 20px -20px;
+    }
+    
+    .version-tag {
+        background-color: #ffcc00;
+        color: #001f3f;
+        padding: 2px 10px;
+        border-radius: 10px;
+        font-size: 0.8em;
+        font-weight: bold;
+    }
+
+    /* Botão de Análise */
+    .stButton>button {
+        width: 100%;
+        border-radius: 12px;
+        height: 3.5em;
+        background-color: #001f3f;
+        color: white;
+        font-weight: bold;
+        border: 2px solid #ffcc00;
+    }
+
+    /* Bloco de Contactos (Denúncia) */
+    .denuncia-box {
+        background-color: #fdecea;
+        padding: 20px;
+        border-radius: 15px;
+        border: 1px solid #f5c6cb;
+        margin-top: 25px;
+    }
+    
+    .phone-link {
+        font-size: 20px;
+        font-weight: bold;
+        color: #d40000;
+        text-decoration: none;
+        display: block;
+        margin: 5px 0;
+    }
     </style>
     """, unsafe_allow_html=True)
 
-st.title("🛡️ Sentinela Nacional")
-st.subheader("Consultoria Hamilton Neto")
-st.caption("Fiscalização de Taxas e Serviços em Angola")
-st.markdown("---")
+# Topo do Aplicativo
+st.markdown("""
+    <div class="v3-header">
+        <h1 style='margin:0;'>🛡️ SENTINELA NACIONAL</h1>
+        <p style='margin:0;'>Consultoria Hamilton Neto</p>
+        <span class="version-tag">VERSÃO 3.15 PRO</span>
+    </div>
+    """, unsafe_allow_html=True)
 
-# --- GRANDE BASE DE DADOS NACIONAL ---
+# --- BASE DE DADOS COMPLETA ---
 categorias = {
-    "💡 Energia (ENDE)": {
-        "Taxa de Iluminação Pública": 1000,
-        "Taxa de Lixo (Doméstica)": 1500,
-        "Novo Contador (Monofásico)": 25000,
-        "Ligação Nova de Energia": 15000
+    "🎓 Concursos e Educação": {
+        "Inscrição Concurso (Saúde/Educação/Polícia)": 0,
+        "Inscrição FAA / Polícia Nacional": 0,
+        "Transferência de Escola (Pública)": 0,
+        "Certificado de Habilitações": 1500,
+        "Autenticação de Diploma": 1000
     },
-    "💧 Água (EPAL/EAS)": {
-        "Ligação de Água (Nova)": 18000,
-        "Consumo Mínimo Estimado": 2500,
-        "Reparação de Fuga na Rua": 0
-    },
-    "📄 Identificação e BI": {
-        "Bilhete de Identidade (1ª Vez)": 0,
-        "Bilhete de Identidade (Renovação)": 500,
-        "Cédula Pessoal": 0,
-        "Passaporte Ordinário": 30500,
-        "Registo de Nascimento": 0
-    },
-    "🏥 Saúde Pública": {
+    "🏥 Saúde e Clínicas": {
         "Consulta Geral (Hospital Público)": 0,
-        "Cartão de Utente": 500,
-        "Parto na Maternidade": 0,
-        "Vacinação e Emergência": 0
+        "Consulta Especialidade (Clínica Privada)": 10000,
+        "Parto na Maternidade Pública": 0,
+        "Cartão de Utente / Atestado Médico": 500,
+        "Análises de Sangue (Média Privada)": 4500
     },
-    "💍 Conservatória e Casamento": {
-        "Casamento Civil (Taxa Normal)": 15000,
-        "Registo de Propriedade (Automóvel)": 12000,
-        "Certidão de Óbito": 0,
-        "Escritura de Terreno": 25000
+    "🏦 Bancos (Abertura de Conta)": {
+        "Abertura de Conta": 0,
+        "Depósito Inicial Obrigatório": 5000,
+        "Cartão Multicaixa (Emissão)": 2500,
+        "Extrato / Documentos": 500
     },
-    "⚖️ Comércio e Fiscalização": {
+    "✈️ Passaporte e SME": {
+        "Passaporte Ordinário": 30500,
+        "Passaporte Urgente": 45000,
+        "Visto de Turismo / Trabalho": 15000
+    },
+    "📄 BI e Registo Civil": {
+        "BI (1ª Vez / Nascimento)": 0,
+        "BI (Renovação ou 2ª via)": 500,
+        "Assento de Nascimento": 0,
+        "Divórcio por Mútuo Consentimento": 15000
+    },
+    "💡 Serviços e Comércio": {
+        "Taxa de Lixo (ENDE)": 1500,
+        "Novo Contador": 25000,
         "Alvará Comercial": 15000,
-        "Licença Sanitária": 12000,
-        "Taxa de Higiene e Limpeza": 5000,
-        "Venda Ambulante (Mensal)": 2500
+        "Ligação de Água": 18000
     }
 }
 
-# --- INTERFACE ---
-st.write("### 🔍 O que pretendes verificar?")
-setor_escolhido = st.selectbox("Selecione o Setor:", list(categorias.keys()))
+# --- INTERFACE DE BUSCA ---
+st.write("### 🔍 Consultar Taxa Oficial")
+setor = st.selectbox("Selecione o Setor:", list(categorias.keys()))
+servico = st.selectbox("Serviço ou Documento:", list(categorias[setor].keys()))
 
-servicos = categorias[setor_escolhido]
-servico_escolhido = st.selectbox("Escolha o Serviço:", list(servicos.keys()))
+valor_real = categorias[setor][servico]
+valor_pago = st.number_input("Quanto estão a cobrar? (Kz):", min_value=0, step=500)
 
-valor_oficial = servicos[servico_escolhido]
-valor_pago = st.number_input("Quanto lhe estão a cobrar? (Kz)", min_value=0, step=100)
-
-if st.button("VERIFICAR TAXA AGORA"):
+if st.button("VERIFICAR AGORA"):
     st.markdown("---")
-    if valor_pago > valor_oficial:
-        st.error(f"⚠️ **VALOR EXCESSIVO DETETADO!**")
-        st.write(f"Para **{servico_escolhido}**, o valor real por lei é **{valor_oficial} Kz**.")
-        st.write(f"Estão a cobrar **{valor_pago - valor_oficial} Kz** a mais.")
-        st.warning("Dica: Peça sempre a Guia de Receita oficial. Se não derem, é ilegal.")
-    elif valor_pago == valor_oficial:
-        st.success("✅ **VALOR DENTRO DA LEI**")
-        st.write(f"O valor de {valor_oficial} Kz está correto.")
+    if valor_pago > valor_real:
+        st.error(f"🛑 **VALOR IRREGULAR!**")
+        st.write(f"Para **{servico}**, o valor legal é **{valor_real} Kz**.")
+        st.write(f"Diferença: **{valor_pago - valor_real} Kz** a mais.")
+        if valor_real == 0: st.warning("Este serviço deve ser GRATUITO por lei!")
+    elif valor_pago == valor_real:
+        st.success("✅ **VALOR DENTRO DA LEALIDADE**")
     else:
-        st.info(f"O valor oficial é {valor_oficial} Kz. Estás a pagar menos ou é gratuito.")
+        st.info(f"O valor de referência é {valor_real} Kz.")
 
-# --- BOTÃO DE WHATSAPP PARA HAMILTON NETO ---
-st.markdown("---")
-st.write("### 📢 Denunciar ou Consultoria")
-mensagem = f"Olá Hamilton Neto, estou no setor de {setor_escolhido} e pediram-me {valor_pago} Kz por {servico_escolhido}. Preciso de ajuda."
-link_wa = f"https://wa.me/244973806524?text={mensagem.replace(' ', '%20')}"
-
+# --- NÚMEROS DE DENÚNCIA (V3.15 DESIGN) ---
 st.markdown(f"""
-    <a href="{link_wa}" target="_blank">
-        <button style="width:100%; height:60px; background-color:#25D366; color:white; border:none; border-radius:15px; font-weight:bold; font-size:16px; cursor:pointer;">
-            🟢 CONTACTAR HAMILTON NETO (WhatsApp)
-        </button>
-    </a>
-""", unsafe_allow_html=True)
+    <div class="denuncia-box">
+        <h3 style='margin-top:0; color:#d40000;'>📢 LINHAS DE DENÚNCIA:</h3>
+        <p><b>🏢 AGT (Denúncias Fiscais):</b></p>
+        <a class="phone-link" href="tel:923167000">📞 923 167 000</a>
+        <hr>
+        <p><b>👨‍💼 CONSULTORIA HAMILTON NETO:</b></p>
+        <a class="phone-link" href="tel:244973806524">📞 973 806 524</a>
+    </div>
+    """, unsafe_allow_html=True)
 
-st.markdown(f"<p style='text-align: center; color: gray; margin-top: 30px;'>© 2026 Hamilton Neto - Fiscalização Independente</p>", unsafe_allow_html=True)
+# Botão WhatsApp
+msg = f"Hamilton, detetei uma cobrança ilegal no setor {setor}. Pediram {valor_pago} Kz por {servico}."
+link_wa = f"https://wa.me/244973806524?text={msg.replace(' ', '%20')}"
+
+st.markdown(f'<a href="{link_wa}" target="_blank"><button style="width:100%; height:60px; background-color:#25D366; color:white; border:none; border-radius:15px; font-weight:bold; margin-top:15px; cursor:pointer;">🟢 ENVIAR PROVA (WHATSAPP)</button></a>', unsafe_allow_html=True)
+
+st.markdown("<p style='text-align: center; color: gray; margin-top: 30px;'>Sentinela Nacional V3.15 Pro | Angola 2026</p>", unsafe_allow_html=True)
